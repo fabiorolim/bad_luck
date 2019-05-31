@@ -1,36 +1,48 @@
 import random
-
 import requests
 from bs4 import BeautifulSoup
 
-URL_MODULO_1 = "https://fabiorolim.github.io/bad_luck/"
 
-page = requests.get(URL_MODULO_1)
-soup = BeautifulSoup(page.content, 'html.parser')
-lista = soup.find_all('a', title="Consulta Dados do Aluno")
-nomes = []
-sorteados = []
+class Scrap:
 
-for l in lista:
-    if str(l.get_text()).startswith('2'):
-        pass
-    else:
-        nomes.append(str(l.get_text()).replace("\n", "").replace(" " * 33, ""))
+    def __init__(self, url):
+        self.url = url
+        self.page = requests.get(self.url)
 
+    def get_soup(self):
+        return BeautifulSoup(self.page.content, 'html.parser')
 
-def sortear():
-    while len(nomes) > len(sorteados):
-        sorteado = nomes[random.randint(0, len(nomes) - 1)]
-        if sorteado not in sorteados:
-            sorteados.append(sorteado)
+    def get_results(self, soup):
+        return soup.find_all('a', title="Consulta Dados do Aluno")
 
-
-def exibir_sorteados():
-    i = 1
-    for nome in sorteados:
-        print(f'{i} - {nome}')
-        i += 1
+    @classmethod
+    def get_nomes(cls, lista):
+        nomes = []
+        for l in lista:
+            if str(l.get_text()).startswith('2'):
+                pass
+            else:
+                nomes.append(
+                    # str(l.get_text()).replace("\n", "").replace(" " * 33, ""))
+                    str(l.get_text()).replace("\n", "").replace(" " * 15, ""))
+        return nomes
 
 
-sortear()
-exibir_sorteados()
+class Sorteio:
+
+    def __init__(self, nomes):
+        self.nomes = nomes
+        self.sorteados = []
+
+    def luck(self):
+        while len(self.nomes) > len(self.sorteados):
+            self.sorteado = self.nomes[random.randint(0, len(self.nomes) - 1)]
+            if self.sorteado not in self.sorteados:
+                self.sorteados.append(self.sorteado)
+        return self.sorteados
+
+    def show_names(self):
+        i = 1
+        for sorteado in self.sorteados:
+            print(f'{i} - {sorteado}')
+            i += 1
