@@ -5,3 +5,5 @@ Run
 git clone https://github.com/fabiorolim/bad_luck.git
 
 pip install -r requirements.txt
+
+python3 run.py
