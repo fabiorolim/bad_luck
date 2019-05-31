@@ -3,7 +3,7 @@ import random
 import requests
 from bs4 import BeautifulSoup
 
-URL_MODULO_1 = "https://fabiorolim.github.io/test_scrap/"
+URL_MODULO_1 = "https://fabiorolim.github.io/bad_luck/"
 
 page = requests.get(URL_MODULO_1)
 soup = BeautifulSoup(page.content, 'html.parser')
